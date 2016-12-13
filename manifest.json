@@ -7,7 +7,7 @@
                       "*://nnn.ed.nico/*",
                       "*://nmsg.nicovideo.jp:*/*"],
   "background": {
-    "scripts": ["loldogs.js", "background.js"]
+    "scripts": ["background.js"]
   },
 
   "manifest_version": 2

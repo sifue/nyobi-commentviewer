@@ -1,4 +1,4 @@
-
+'use strict';
 var chatMap = new Map(); // key: no, value: chat
 var maxNo = 0;
 chrome.webRequest.onCompleted.addListener(
@@ -23,7 +23,10 @@ chrome.webRequest.onCompleted.addListener(
         });
         if(remoteMaxNo > maxNo ) {
           // new chat exits
-          console.log(chatMap);
+          maxNo = remoteMaxNo;
+          chrome.tabs.executeScript(null, { 
+            code: 'var maxNo = ' + maxNo + ';var chats = \'' + JSON.stringify(Array.from(chatMap)) + '\''});
+          chrome.tabs.executeScript(null, { file: 'script.js' });
         }
       });
     }
@@ -34,3 +37,4 @@ chrome.webRequest.onCompleted.addListener(
       '*://nmsg.nicovideo.jp:*/api.json/thread*'
     ]
   });
+
