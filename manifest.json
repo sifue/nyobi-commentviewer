@@ -2,13 +2,18 @@
   "name": "N予備コメビュ",
   "version": "1.0",
   "description": "N予備校の生放送授業において、コメント一覧を表示するChrome拡張 (ISC License)",
-  "permissions": ["webRequest", "webRequestBlocking",
-                      "*://www.nnn.ed.nico/*",
-                      "*://nnn.ed.nico/*",
-                      "*://nmsg.nicovideo.jp:*/*"],
+  "permissions": [
+    "activeTab",
+    "webNavigation",
+    "*://www.nnn.ed.nico/*",
+    "*://nnn.ed.nico/*"],
   "background": {
     "scripts": ["background.js"]
   },
-
-  "manifest_version": 2
+  "manifest_version": 2,
+  "icons": {
+    "16": "images/en_icon16.png",
+    "48": "images/en_icon48.png",
+    "128": "images/en_icon128.png"
+  }
 }
