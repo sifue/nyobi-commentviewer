@@ -11,9 +11,16 @@ if (!commentTextArea) {
 }
 
 // for comment
-var script = document.createElement('script');
-script.innerText = 'var commentTextArea = document.querySelector("#comment-text-area");window.addEventListener("appearComment", function(e) {  var comments = window.kyuuri.comments;  var currentComment = comments.find(function(co) { return co.no === e.detail.item.no; });  commentTextArea.value += "\\n" + currentComment.no + ": " + currentComment.text;  commentTextArea.scrollTop = commentTextArea.scrollHeight;}, false);';
-document.body.appendChild(script);
+var oldText = null;
+var _drawLetterSpacing = PIXI.Text.prototype.drawLetterSpacing;
+PIXI.Text.prototype.drawLetterSpacing = function (text, x, y, isStroke) {
+  _drawLetterSpacing.call(this, text, x, y, isStroke);
+  if (oldText != text) {
+    commentTextArea.value += '\n' + text;
+    oldText = text;
+    commentTextArea.scrollTop = commentTextArea.scrollHeight;
+  }
+};
 
 // for lesson interaction comment
 var commentText = null;
