@@ -10,17 +10,11 @@ if (!commentTextArea) {
   column.appendChild(div);
 }
 
-// for comment
-var oldText = null;
-var _drawLetterSpacing = PIXI.Text.prototype.drawLetterSpacing;
-PIXI.Text.prototype.drawLetterSpacing = function (text, x, y, isStroke) {
-  _drawLetterSpacing.call(this, text, x, y, isStroke);
-  if (oldText != text) {
-    commentTextArea.value += '\n' + text;
-    oldText = text;
-    commentTextArea.scrollTop = commentTextArea.scrollHeight;
-  }
-};
+// for comment (PIXI.js hack)
+var script = document.createElement('script');
+script.innerText = 'var commentTextArea = document.querySelector("#comment-text-area"); var oldText = null; var _drawLetterSpacing = PIXI.Text.prototype.drawLetterSpacing; PIXI.Text.prototype.drawLetterSpacing = function (text, x, y, isStroke) { _drawLetterSpacing.call(this, text, x, y, isStroke); if (oldText != text) { commentTextArea.value += "\\n" + text; oldText = text; commentTextArea.scrollTop = commentTextArea.scrollHeight; } };';
+document.body.appendChild(script);
+
 
 // for lesson interaction comment
 var commentText = null;
