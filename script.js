@@ -2,9 +2,10 @@
 // create comment area
 var commentTextArea = document.querySelector('#comment-text-area');
 if (!commentTextArea) {
-  var column = document.querySelector('.component-lesson-left-column');
+  var column = document.querySelector('#root > div > div > div > div > div');
   var div = document.createElement('div');
   commentTextArea = document.createElement('textarea');
+  commentTextArea.style = 'width:100%;';
   commentTextArea.id = 'comment-text-area';
   div.appendChild(commentTextArea);
   column.appendChild(div);
@@ -34,6 +35,5 @@ function handleMutations(mutations) {
 }
 var observer = new MutationObserver(handleMutations);
 var config = { attributes: true, childList: true, characterData: true };
-observer.observe(document.querySelector('.component-lesson-interaction-bar'), config);
-
+observer.observe(document.querySelector('#root > div > div > div > div > div'), config);
 
