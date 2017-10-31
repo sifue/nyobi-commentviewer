@@ -20,20 +20,20 @@ document.body.appendChild(script);
 // for lesson interaction comment
 var commentText = null;
 function updateCommentIfChange(commentDiv) {
-  if (commentText !== commentDiv.innerHTML) {
+  if (commentText !== commentDiv.innerText) {
     commentDiv.addEventListener('DOMNodeRemoved', handleMutations) ;
-    commentText = commentDiv.innerHTML;
+    commentText = commentDiv.innerText;
     commentTextArea.value += '\n運営: ' + commentText;
     commentTextArea.scrollTop = commentTextArea.scrollHeight;
   }
 }
 function handleMutations(mutations) {
-  var commentDiv = document.querySelector('.component-lesson-interaction-bar-event-message-inner');
+  var commentDiv = document.querySelector('#root > div > div > div > div > div > div > div > div > div > div');
   if (commentDiv) {
     updateCommentIfChange(commentDiv);
   }
 }
 var observer = new MutationObserver(handleMutations);
 var config = { attributes: true, childList: true, characterData: true };
-observer.observe(document.querySelector('#root > div > div > div > div > div'), config);
+observer.observe(document.querySelector('#root > div > div > div > div > div > div > div > div > div'), config);
 
