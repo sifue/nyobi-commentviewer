@@ -23,8 +23,10 @@ function updateCommentIfChange(commentDiv) {
   if (commentText !== commentDiv.innerText) {
     commentDiv.addEventListener('DOMNodeRemoved', handleMutations) ;
     commentText = commentDiv.innerText;
-    commentTextArea.value += '\n運営: ' + commentText;
-    commentTextArea.scrollTop = commentTextArea.scrollHeight;
+    if(commentText) {
+      commentTextArea.value += '\n運営: ' + commentText;
+      commentTextArea.scrollTop = commentTextArea.scrollHeight;
+    }
   }
 }
 function handleMutations(mutations) {
@@ -34,6 +36,6 @@ function handleMutations(mutations) {
   }
 }
 var observer = new MutationObserver(handleMutations);
-var config = { attributes: true, childList: true, characterData: true };
-observer.observe(document.querySelector('#root > div > div > div > div > div > div > div > div > div'), config);
+var config = { attributes: true, childList: true, characterData: true, subtree: true };
+observer.observe(document.querySelector('#root > div > div > div > div > div > div > div'), config);
 
