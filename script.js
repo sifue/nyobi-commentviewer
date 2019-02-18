@@ -5,7 +5,7 @@ if (!commentTextArea) {
   var column = document.querySelector('#root > div > div > div > div > div');
   var div = document.createElement('div');
   commentTextArea = document.createElement('textarea');
-  commentTextArea.style = 'width:100%;';
+  commentTextArea.style = 'width:100%;height:6em;';
   commentTextArea.id = 'comment-text-area';
   div.appendChild(commentTextArea);
   column.appendChild(div);
