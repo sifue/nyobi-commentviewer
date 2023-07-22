@@ -3,14 +3,18 @@
   "version": "1.6",
   "description": "N予備校の生放送授業において、コメント一覧を表示するChrome拡張 (ISC License)",
   "permissions": [
+    "scripting",
     "activeTab",
-    "webNavigation",
+    "webNavigation"
+  ],
+  "host_permissions": [
     "*://www.nnn.ed.nico/*",
-    "*://nnn.ed.nico/*"],
+    "*://nnn.ed.nico/*"
+  ],
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js"
   },
-  "manifest_version": 2,
+  "manifest_version": 3,
   "icons": {
     "16": "images/en_icon16.png",
     "48": "images/en_icon48.png",
