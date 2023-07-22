@@ -11,11 +11,11 @@ if (!commentTextArea) {
   column.appendChild(div);
 }
 
-// for comment (PIXI.js hack)
+// for comment (Canvas API hack)
 var oldText = null;
-var _drawLetterSpacing = PIXI.Text.prototype.drawLetterSpacing;
-PIXI.Text.prototype.drawLetterSpacing = function (text, x, y, isStroke) {
-  _drawLetterSpacing.call(this, text, x, y, isStroke);
+CanvasRenderingContext2D.prototype.originalFillText = CanvasRenderingContext2D.prototype.fillText;
+CanvasRenderingContext2D.prototype.fillText = function (text, x, y, maxWidth) {
+  this.originalFillText(text, x, y, maxWidth);
   if (oldText != text) {
     commentTextArea.value += "\\n" + text;
     oldText = text;
