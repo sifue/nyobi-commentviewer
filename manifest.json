@@ -17,6 +17,7 @@
   "web_accessible_resources": [
     {
       "resources": [
+        "comment-viewer.css",
         "comment-viewer.js"
       ],
       "matches": [

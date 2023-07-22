@@ -1,47 +1,72 @@
 'use strict';
-// create comment area
-var commentTextArea = document.querySelector('#comment-text-area');
-if (!commentTextArea) {
-  var column = document.querySelector('#root > div > div > div > div > div');
-  var div = document.createElement('div');
-  commentTextArea = document.createElement('textarea');
-  commentTextArea.style = 'width:100%;height:6em;';
-  commentTextArea.id = 'comment-text-area';
-  div.appendChild(commentTextArea);
-  column.appendChild(div);
-}
 
-// for comment (Canvas API hack)
-var oldText = null;
+const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]');
+const timeElement = document.querySelector('time');
+
+const commentList = document.createElement('ul');
+commentList.classList.add('comment-list');
+videoPlayer.parentElement.parentElement.appendChild(commentList);
+
+// ---------- コメントを取得して表示する ----------
+
+const commentHistory = new Map();
+
 CanvasRenderingContext2D.prototype.originalFillText = CanvasRenderingContext2D.prototype.fillText;
 CanvasRenderingContext2D.prototype.fillText = function (text, x, y, maxWidth) {
   this.originalFillText(text, x, y, maxWidth);
-  if (oldText != text) {
-    commentTextArea.value += "\\n" + text;
-    oldText = text;
-    commentTextArea.scrollTop = commentTextArea.scrollHeight;
+
+  const currentPlaybackTime = timeElement.textContent.trim();
+  const comment = text.trim();
+
+  if (comment) {
+    const comments = commentHistory.get(currentPlaybackTime) ?? [];
+
+    // 1 つのコメントに対して fillText() が 2 回呼び出されるので間引く
+    if (comments.filter(c => c === comment).length % 2 === 0) {
+      commentList.insertAdjacentHTML('beforeend', `
+        <li class="comment">
+          <span class="time">${currentPlaybackTime}</span>
+          <span class="text">${sanitize(comment)}</span>
+        </li>
+      `);
+
+      commentList.scrollTop = commentList.scrollHeight;
+    }
+
+    comments.push(comment);
+    commentHistory.set(currentPlaybackTime, comments);
   }
 };
 
+// ---------- 運営コメントを取得して表示する ----------
 
-// for lesson interaction comment
-var commentText = null;
-function updateCommentIfChange(commentDiv) {
-  if (commentText !== commentDiv.innerText) {
-    commentDiv.addEventListener('DOMNodeRemoved', handleMutations) ;
-    commentText = commentDiv.innerText;
-    if(commentText) {
-      commentTextArea.value += '\n運営: ' + commentText;
-      commentTextArea.scrollTop = commentTextArea.scrollHeight;
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.addedNodes.length) {
+      const addedNode = mutation.addedNodes.item(0);
+
+      const currentPlaybackTime = timeElement.textContent.trim();
+      const comment = sanitize(addedNode.textContent).replace('リンクはこちら', () => addedNode.querySelector('a').outerHTML);
+
+      commentList.insertAdjacentHTML('beforeend', `
+        <li class="comment staff">
+          <span class="time">${currentPlaybackTime}</span>
+          <span class="text">${comment}</span>
+        </li>
+      `);
+
+      commentList.scrollTop = commentList.scrollHeight;
     }
-  }
+  });
+});
+
+observer.observe(videoPlayer.firstElementChild, {
+  subtree: true,
+  childList: true
+});
+
+function sanitize(text) {
+  const element = document.createElement('div');
+  element.innerText = text;
+  return element.innerHTML;
 }
-function handleMutations(mutations) {
-  var commentDiv = document.querySelector('#root > div > div > div > div > div > div > div > div > div > div');
-  if (commentDiv) {
-    updateCommentIfChange(commentDiv);
-  }
-}
-var observer = new MutationObserver(handleMutations);
-var config = { attributes: true, childList: true, characterData: true, subtree: true };
-observer.observe(document.querySelector('#root > div > div > div > div > div > div > div'), config);
