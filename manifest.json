@@ -14,6 +14,17 @@
   "background": {
     "service_worker": "background.js"
   },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "comment-viewer.js"
+      ],
+      "matches": [
+        "*://www.nnn.ed.nico/*",
+        "*://nnn.ed.nico/*"
+      ]
+    }
+  ],
   "manifest_version": 3,
   "icons": {
     "16": "images/en_icon16.png",
