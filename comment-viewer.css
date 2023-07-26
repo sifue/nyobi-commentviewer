@@ -28,7 +28,7 @@
   padding: 5px;
   box-sizing: border-box;
   background-color: #fff;
-  border: solid 1px #eee;
+  border-bottom: solid 1px #eee;
 }
 
 .comment::before {
