@@ -1,11 +1,37 @@
 'use strict';
 
 const videoPlayer = document.querySelector('[aria-label="動画プレイヤー"]');
+const asideElement = document.querySelector('aside');
 const timeElement = document.querySelector('time');
 
-const commentList = document.createElement('ul');
-commentList.classList.add('comment-list');
-videoPlayer.parentElement.parentElement.appendChild(commentList);
+// デフォルトでは動画プレイヤーの下に配置する
+videoPlayer.parentElement.parentElement.insertAdjacentHTML('beforeend', `
+  <div id="comment-panel">
+    <ul id="comment-list" class="comment-list"></ul>
+    <div class="comment-toolbar">
+      <label for="position-select">表示位置</label>
+      <select id="position-select">
+        <option value="top-right">右上</option>
+        <option value="bottom-left" selected>左下</option>
+      </select>
+    </div>
+  </div>
+`);
+
+const commentPanel = document.querySelector('#comment-panel');
+const commentList = commentPanel.querySelector('#comment-list');
+const positionSelect = commentPanel.querySelector('#position-select');
+
+// 表示位置の切り替え
+positionSelect.addEventListener('change', (event) => {
+  const position = event.target.value;
+
+  if (position === 'top-right') asideElement.insertAdjacentElement('afterbegin', commentPanel);
+  else if (position === 'bottom-left') videoPlayer.parentElement.parentElement.insertAdjacentElement('beforeend', commentPanel);
+
+  commentList.scrollTop = commentList.scrollHeight;
+  commentPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 
 // ---------- コメントを取得して表示する ----------
 
