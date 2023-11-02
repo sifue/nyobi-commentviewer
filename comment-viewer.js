@@ -22,12 +22,16 @@ const commentPanel = document.querySelector('#comment-panel');
 const commentList = commentPanel.querySelector('#comment-list');
 const positionSelect = commentPanel.querySelector('#position-select');
 
+commentList.dataset.position = 'bottom-left';
+
 // 表示位置の切り替え
 positionSelect.addEventListener('change', (event) => {
   const position = event.target.value;
 
-  if (position === 'top-right') asideElement.insertAdjacentElement('afterbegin', commentPanel);
+  if (position === 'top-right') {asideElement.insertAdjacentElement('afterbegin', commentPanel);}
   else if (position === 'bottom-left') videoPlayer.parentElement.parentElement.insertAdjacentElement('beforeend', commentPanel);
+
+  commentList.dataset.position = position;
 
   commentList.scrollTop = commentList.scrollHeight;
   commentPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });

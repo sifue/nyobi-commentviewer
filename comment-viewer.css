@@ -14,13 +14,20 @@
 
 .comment-list {
   width: 100%;
-  height: 120px;
   list-style: none;
   overflow-y: scroll;
   box-sizing: border-box;
   background-color: #fff;
   border: solid 1px #eee;
   resize: vertical;
+}
+
+.comment-list[data-position="bottom-left"] {
+  height: 120px;
+}
+
+.comment-list[data-position="top-right"] {
+  height: 350px;
 }
 
 .comment {
