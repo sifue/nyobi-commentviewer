@@ -1,6 +1,6 @@
 {
   "name": "N予備コメビュ",
-  "version": "2.1",
+  "version": "2.1.1",
   "description": "N予備校の生放送授業において、コメント一覧を表示するChrome拡張 (ISC License)",
   "permissions": [
     "scripting",
