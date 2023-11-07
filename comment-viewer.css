@@ -14,7 +14,6 @@
 
 .comment-list {
   width: 100%;
-  height: 120px;
   list-style: none;
   overflow-y: scroll;
   box-sizing: border-box;
@@ -23,9 +22,17 @@
   resize: vertical;
 }
 
+.comment-list[data-position="bottom-left"] {
+  height: 120px;
+}
+
+.comment-list[data-position="top-right"] {
+  height: 350px;
+}
+
 .comment {
   margin: 0;
-  padding: 5px;
+  padding: 12px;
   box-sizing: border-box;
   background-color: #fff;
   border-bottom: solid 1px #eee;
