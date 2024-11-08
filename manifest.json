@@ -1,6 +1,6 @@
 {
   "name": "ZEN Studyコメビュ",
-  "version": "2.2",
+  "version": "2.3",
   "description": "ZEN Study(元N予備校)の生放送授業において、コメント一覧を表示するChrome拡張 (ISC License)",
   "permissions": [
     "scripting",
